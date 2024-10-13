@@ -31,10 +31,14 @@ import net.minecraft.util.Timer;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
+import org.lwjgl.util.glu.GLU;
 
 import java.awt.*;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -733,6 +737,21 @@ public class RenderUtils {
         GL11.glLineWidth(1.0f);
         GL11.glShadeModel(7424);
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    public static double[] convertTo2D(double x, double y, double z) {
+        FloatBuffer screenCoords = BufferUtils.createFloatBuffer(3);
+        IntBuffer viewport = BufferUtils.createIntBuffer(16);
+        FloatBuffer modelView = BufferUtils.createFloatBuffer(16);
+        FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+        GL11.glGetFloat(2982, modelView);
+        GL11.glGetFloat(2983, projection);
+        GL11.glGetInteger(2978, viewport);
+        boolean result = GLU.gluProject((float)x, (float)y, (float)z, modelView, projection, viewport, screenCoords);
+        if (result) {
+            return new double[] { screenCoords.get(0), org.lwjgl.opengl.Display.getHeight() - screenCoords.get(1), screenCoords.get(2) };
+        }
+        return null;
     }
 
     public static void drawRoundedRectangle(float x, float y, float x2, float y2, float radius, final int color) {

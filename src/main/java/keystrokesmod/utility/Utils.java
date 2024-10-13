@@ -271,8 +271,11 @@ public class Utils {
         return entity.getHealth() + entity.getAbsorptionAmount();
     }
 
-    public static String getHealthStr(EntityLivingBase entity) {
+    public static String getHealthStr(EntityLivingBase entity, boolean accountDead) {
         float completeHealth = getCompleteHealth(entity);
+        if (accountDead && entity.isDead) {
+            completeHealth = 0;
+        }
         return getColorForHealth(entity.getHealth() / entity.getMaxHealth(), completeHealth);
     }
 
