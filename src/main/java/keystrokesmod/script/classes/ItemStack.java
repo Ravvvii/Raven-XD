@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemStack {
@@ -36,8 +37,8 @@ public class ItemStack {
     }
 
     public List<String> getToolTip() {
-        if (this.itemStack == null || Minecraft.getMinecraft().thePlayer == null) {
-            return null;
+        if (this.itemStack == null) {
+            return new ArrayList<>();
         }
         return this.itemStack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
     }
