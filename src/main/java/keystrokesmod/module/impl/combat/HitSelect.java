@@ -14,7 +14,7 @@ import static keystrokesmod.module.ModuleManager.hitSelect;
 
 public class HitSelect extends Module {
     private static final String[] MODES = new String[]{"Pause", "Active"};
-    private static final String[] PREFERENCES = new String[]{"Move speed", "KB reduction", "Critical hits"};
+    private static final String[] PREFERENCES = new String[]{"Move Speed", "KB Reduction", "Critical Hit"};
     private final ModeSetting preference;
     private final ModeSetting mode;
     private final SliderSetting delay;
@@ -32,8 +32,8 @@ public class HitSelect extends Module {
                 "Move speed: Keep sprint but legitimate\n" +
                         "KB reduction: KnockBack reduction\n" +
                         "Critical hits: Critical hit frequency"));
-        this.registerSetting(delay = new SliderSetting("Delay", 420, 300, 500, 1));
-        this.registerSetting(chance = new SliderSetting("Chance", 80, 0, 100, 1));
+        this.registerSetting(delay = new SliderSetting("Delay", 300, 0, 300, 1));
+        this.registerSetting(chance = new SliderSetting("Chance", 100, 0, 100, 1));
     }
 
     @Override
