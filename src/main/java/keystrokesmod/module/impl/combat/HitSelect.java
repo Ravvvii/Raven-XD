@@ -18,7 +18,6 @@ public class HitSelect extends Module {
     private final ModeSetting preference;
     private final ModeSetting mode;
     private final SliderSetting delay;
-    private final SliderSetting chance;
 
     private static long attackTime = -1;
     private static boolean currentShouldAttack = false;
@@ -33,7 +32,6 @@ public class HitSelect extends Module {
                         "KB reduction: KnockBack reduction\n" +
                         "Critical hits: Critical hit frequency"));
         this.registerSetting(delay = new SliderSetting("Delay", 300, 0, 300, 1));
-        this.registerSetting(chance = new SliderSetting("Chance", 100, 0, 100, 1));
     }
 
     @Override
@@ -56,21 +54,17 @@ public class HitSelect extends Module {
     public void onPreUpdate(PreUpdateEvent event) {
         currentShouldAttack = false;
 
-        if (Math.random() * 100 > hitSelect.chance.getInput()) {
-            currentShouldAttack = true;
-        } else {
-            switch ((int) preference.getInput()) {
-                case 1:
-                    currentShouldAttack = mc.thePlayer.hurtTime > 0 && !mc.thePlayer.onGround && MoveUtil.isMoving();
-                    break;
-                case 2:
-                    currentShouldAttack = !mc.thePlayer.onGround && mc.thePlayer.motionY < 0;
-                    break;
-            }
-
-            if (!currentShouldAttack)
-                currentShouldAttack = System.currentTimeMillis() - HitSelect.attackTime >= hitSelect.delay.getInput();
+        switch ((int) preference.getInput()) {
+            case 1:
+                currentShouldAttack = mc.thePlayer.hurtTime > 0 && !mc.thePlayer.onGround && MoveUtil.isMoving();
+                break;
+            case 2:
+                currentShouldAttack = !mc.thePlayer.onGround && mc.thePlayer.motionY < 0;
+                break;
         }
+
+        if (!currentShouldAttack)
+            currentShouldAttack = System.currentTimeMillis() - HitSelect.attackTime >= hitSelect.delay.getInput();
     }
 
     public static boolean canAttack() {
