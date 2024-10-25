@@ -103,11 +103,6 @@ public abstract class MixinMinecraft {
         }
     }
 
-    @Inject(method = "createDisplay", at = @At(value = "RETURN"))
-    private void onSetTitle(@NotNull CallbackInfo ci) {
-        Display.setTitle("Raven XD " + Watermark.VERSION);
-    }
-
 
 
     @Redirect(method = "drawSplashScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/resources/DefaultResourcePack;getInputStream(Lnet/minecraft/util/ResourceLocation;)Ljava/io/InputStream;"))
