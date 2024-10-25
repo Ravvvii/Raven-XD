@@ -62,7 +62,7 @@ public class LegitVelocity extends SubMode<Velocity> {
                     }
                     break;
                 case 1:
-                    if (chance.getInput() == 100 || Math.random() * 100 >= chance.getInput()) {
+                    if (chance.getInput() == 100) {
                         if (canJump())
                             mc.thePlayer.jump();
                     }
@@ -72,6 +72,6 @@ public class LegitVelocity extends SubMode<Velocity> {
     }
 
     private boolean canJump() {
-        return mc.thePlayer.onGround && (jumpInInv.isToggled() || mc.currentScreen == null);
+        return mc.thePlayer.onGround && mc.thePlayer.motionY > 0;
     }
 }
